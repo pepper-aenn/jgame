@@ -1,14 +1,33 @@
-console.log("Hello")
+// When we call goToPage('about'), it will only display the 'about' page
+function goToPage(link) {
+  // // Solution 1
+  // $('[data-page]').hide()
+  // $('[data-page='+link+']').show()
 
-// Iteration 1
+  // Solution 2
+  $("[data-page]").each(function() {
+    var page = $(this).data('page')
+    if (page === link)
+      $(this).show()
+    else 
+      $(this).hide()
+  });
 
-function goToPage (link){
-  $('[data-page]').hide()
+  // Add the class active in the navbar
+  $('li.nav-item').each(function(){
+    var href = $(this).find('a.nav-link').attr('href')
+    if (href === link) 
+      $(this).addClass('active')
+    else
+      $(this).removeClass('active')
+  })
+}
+// Go to main page
+goToPage('home')
 
-   
-};
-
-goToPage('home');
-
-//Iteration 2: listen for click events on <a>
-//hint: event.preventDefault 
+// Listen for click events on <a> and redirect to the right page
+$('a').click(function(event){
+  event.preventDefault()
+  var href = $(this).attr('href')
+  goToPage(href)
+})
